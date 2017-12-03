@@ -6,10 +6,11 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     people: [
-      {name: 'James McGill', profession: 'Lawyer'},
-      {name: 'Walter White', profession: 'Chemist'},
-      {name: 'Jesse Pinkman', profession: 'Business man'},
-    ]
+      {id: 1, name: 'James McGill', profession: 'Lawyer'},
+      {id: 2, name: 'Walter White', profession: 'Chemist'},
+      {id: 3, name: 'Jesse Pinkman', profession: 'Business man'},
+    ],
+    showPeople: false
   };
  
   // DON'T invoke the onClick switchNameHandler is the JSX b/c it will be called when the component renders
@@ -23,21 +24,92 @@ class App extends Component {
         {name: 'Walter White', profession: 'Chemist'},
         {name: 'Jesse Pinkman', profession: 'Business man'},
       ]
-    })
+    });
+  }
+
+  deletePersonHandler = (index) => {
+    let copyPeopleArray = [
+      ...this.state.people
+    ];
+    copyPeopleArray.splice(index, 1);
+    this.setState({
+      people: copyPeopleArray
+    });
+  }
+
+  // max recommends using this syntax. The other syntax can lead to problems with the keyword "this".
+  // This syntax ensures that "this" inside of this method always refers to the class.
+  togglePeopleHandler = () => {
+    const doesShow = this.state.showPeople;
+    this.setState({
+      showPeople: !doesShow
+    });
+  }
+
+  // .find is like map, but when it finds "true" on any element, it returns that element.
+  // .findIndex is the same, but it returns that element's index instead of the element itself.
+  // ALSO: const person uses a spread operator which ALSO WORKS FOR OBJECTS. 
+  // it takes all the properties of the object (in this case our person) and here we're storing
+  // those properties in a new object 'person'.
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.people.findIndex((person)=>{
+      return person.id === id; 
+    });
+
+    const person = {
+      ...this.state.people[personIndex]
+    };
+    console.log('VALUE', event);
+    console.log('PERSON', person);
+    console.log('INDEX', personIndex);
+    
+    person.name = event;
+
+    const people = [...this.state.people];
+    people[personIndex] = person;
+
+    this.setState({
+      people: people
+    });
   }
 
   render() {
+    
+    // NOTE: inside of the render method, we cannot use block statements. Only simple statements.
+    // This means no traditional if statements. Ternary is A-OK.
+
+    let people = null;
+
+    // the parenthesis are just to make it look pretty :)
+
+    // key and the bind argument for the array index are different b/c
+    // the items in the list will change position whenever something is deleted,
+    // so we need something dynamic (array indexes) as opposed to something static (item id's)
+    if(this.state.showPeople){
+      people = (
+        <div>
+      {this.state.people.map((person, i) => {
+        return ( 
+        <Person 
+        name={person.name}
+        profession={person.profession}
+        key = {person.id}
+        deletion={this.deletePersonHandler.bind(this, i)}
+        change={(event)=>this.nameChangedHandler(event.target.value, person.id)}
+         />
+        )
+      })}
+      </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>TEST</h1>
-        <button onClick={()=>this.switchNameHandler('default name')}>Switch Name</button>
-        <Person name={this.state.people[0].name} profession={this.state.people[0].profession} />
-        <Person 
-        name={this.state.people[1].name} 
-        profession={this.state.people[1].profession}
-        click={this.switchNameHandler.bind(this, 'not a default name')} />
-        <Person name={this.state.people[2].name} profession={this.state.people[2].profession} />
-        <Person>I am inbetween</Person>
+        <button 
+        onClick={this.togglePeopleHandler}
+        >Switch Name</button>
+        {people}
       </div>
     );
   }

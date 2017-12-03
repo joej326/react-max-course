@@ -6,8 +6,9 @@ import React from 'react';
 const person = (props) => { // doesnt have to be "props" could be "redbulls"
     return (
         <div>
-            <h1 onClick={props.click} >Hello I am {props.name} and I am a {props.profession}!</h1>
-            <p>{props.children}</p>    
+            <h1 onClick={props.deletion} >Hello I am {props.name} and I am a {props.profession}!</h1>
+            <p>{props.children}</p>
+            <input onChange={props.change} />    
         </div>
     )
 }
