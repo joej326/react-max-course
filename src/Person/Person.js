@@ -8,7 +8,7 @@ const person = (props) => { // doesnt have to be "props" could be "redbulls"
         <div>
             <h1 onClick={props.deletion} >Hello I am {props.name} and I am a {props.profession}!</h1>
             <p>{props.children}</p>
-            <input onChange={props.change} />    
+            <input className="form-control" onChange={props.change} />    
         </div>
     )
 }

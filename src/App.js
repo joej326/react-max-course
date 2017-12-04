@@ -68,9 +68,7 @@ class App extends Component {
     const people = [...this.state.people];
     people[personIndex] = person;
 
-    this.setState({
-      people: people
-    });
+    this.setState({ people });
   }
 
   render() {
@@ -104,11 +102,11 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <div className="App container">
         <h1>TEST</h1>
         <button 
         onClick={this.togglePeopleHandler}
-        >Switch Name</button>
+        >Show Names</button>
         {people}
       </div>
     );
