@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Person from './Person/Person';
+
+// note: when we use super() in a class the super refers to the parent (like in java)
+// and in this case the parent is React's Component, so the super() is inheriting React's Component constructor
+import Persons from '../components/Persons/Persons';
 
 class App extends Component {
   state = {
@@ -86,18 +89,11 @@ class App extends Component {
     if(this.state.showPeople){
       people = (
         <div>
-      {this.state.people.map((person, i) => {
-        return ( 
-        <Person 
-        name={person.name}
-        profession={person.profession}
-        key = {person.id}
-        deletion={this.deletePersonHandler.bind(this, i)}
-        change={(event)=>this.nameChangedHandler(event.target.value, person.id)}
-         />
-        )
-      })}
-      </div>
+          <Persons
+          persons={this.state.people}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler} />
+        </div>
       );
     }
 
