@@ -6,7 +6,36 @@ import './App.css';
 // and in this case the parent is React's Component, so the super() is inheriting React's Component constructor
 import Persons from '../components/Persons/Persons';
 
+// we have to use super when creating our own construtor or we get an error.
+// we won't get the "super" error is we omit the constructor function in our class.
+// this is b/c if we don't create a constructor function, React reaches out to the
+// "Component" default constructor.
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+
+    // we have our state declared outside the constructor, but an alternative syntax is to declare
+    // it inside the constructor using "this" like so:
+
+    // this.state = {
+    //   people: [
+    //     {id: 1, name: 'James McGill', profession: 'Lawyer'},
+    //     {id: 2, name: 'Walter White', profession: 'Chemist'},
+    //     {id: 3, name: 'Jesse Pinkman', profession: 'Business man'},
+    //   ],
+    //   showPeople: false
+    // };
+  }
+
+  componentWillMount() {
+    console.log('componentWillMount ran!');
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount ran!');
+  }
+
   state = {
     people: [
       {id: 1, name: 'James McGill', profession: 'Lawyer'},
@@ -110,3 +139,22 @@ class App extends Component {
 }
 
 export default App;
+
+// LIFECYCLES: 
+
+// componentWillReceiveProps(nextProps)
+//          | | | | |
+//          V V V V V
+// shouldComponentUpdate(nextProps, nextState) // returns true or false which dictates whether it should continue on with the rest of the lifecycle
+//          | | | | |
+//          V V V V V
+// componentWillUpdate(nextProps, nextState)
+//          | | | | |
+//          V V V V V
+// render()
+//          | | | | |
+//          V V V V V
+// *Updates the child components' props
+//          | | | | |
+//          V V V V V
+// componentDidUpdate()
