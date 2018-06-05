@@ -6,8 +6,22 @@ import Person from './Person/Person';
 // if you use parenthesis in the same line with an arrow function you can omit "return".
 class Persons extends Component {
 
-  componentWillReceiveProps() {
-    
+  componentWillReceiveProps(nextProps) {
+    console.log('Persons.js updated:', nextProps);
+  }
+
+  // note that this method is pretty important b/c it can save us performance
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('Persons.js should update:', nextProps, nextState); 
+    return true;   
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('Persons.js will update:', nextProps, nextState);     
+  }
+
+  componentDidUpdate() {
+    console.log('Persons.js did update:');
   }
 
   render () {

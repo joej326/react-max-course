@@ -129,6 +129,7 @@ class App extends Component {
     return (
       <div className="App container">
         <h1>TEST</h1>
+        <button onClick={() => {this.setState({showPeople: true})}}>Show People</button>
         <button 
         onClick={this.togglePeopleHandler}
         >Show Names</button>
