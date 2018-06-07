@@ -13,7 +13,13 @@ class Persons extends Component {
   // note that this method is pretty important b/c it can save us performance
   shouldComponentUpdate(nextProps, nextState) {
     console.log('Persons.js should update:', nextProps, nextState); 
-    return true;   
+
+    // this is checking if any of the props (coming from App.js) are changed.
+    // Only then will the component continue with rendering b/c this is the 
+    // shouldComponentUpdate lifecycle hook.
+    return nextProps.persons !== this.props.persons || 
+      nextProps.changed !== this.props.changed || 
+      nextProps.clicked !== this.props.clicked;
   }
 
   componentWillUpdate(nextProps, nextState) {
